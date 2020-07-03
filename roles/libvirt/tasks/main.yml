@@ -92,18 +92,18 @@
     immediate: yes
     state: enabled
 
-- name: Allow kube api port in firewall
+- name: Allow all TCP ports for libvirt machines
   firewalld:
     zone: libvirt
-    port: 6443/tcp
+    port: 0-65535/tcp
     permanent: yes
     immediate: yes
     state: enabled
 
-- name: Allow kube api port in firewall
+- name: Allow all TCP ports for libvirt machines
   firewalld:
     zone: libvirt
-    port: 22623/tcp
+    port: 0-65535/tcp
     permanent: yes
     immediate: yes
     state: enabled
