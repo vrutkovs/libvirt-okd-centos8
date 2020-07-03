@@ -1,0 +1,75 @@
+---
+
+- name: Required packages installed
+  yum:
+    name: "{{ libvirt_packages }}"
+    state: present
+
+- name: Service enabled
+  service:
+    name: libvirtd
+    enabled: true
+
+- name: IP forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: libvirt listen
+  lineinfile:
+    path: /etc/sysconfig/libvirtd
+    regexp: '^#LIBVIRTD_ARGS'
+    line: LIBVIRTD_ARGS="--listen"
+
+- name: no TCP auth
+  lineinfile:
+    path: /etc/libvirt/libvirtd.conf
+    regexp: '^#auth_tcp ='
+    line: auth_tcp = "none"
+
+- name: no TLS listen
+  lineinfile:
+    path: /etc/libvirt/libvirtd.conf
+    regexp: '^#listen_tls ='
+    line: listen_tls = 0
+
+- name: TCP port
+  lineinfile:
+    path: /etc/libvirt/libvirtd.conf
+    regexp: '^#tcp_port ='
+    line: tcp_port = "16509"
+
+- name: TCP listen
+  lineinfile:
+    path: /etc/libvirt/libvirtd.conf
+    regexp: '^#listen_tcp ='
+    line: listen_tcp = 1
+
+- name: Service restarted
+  service:
+    name: libvirtd
+    state: restarted
+
+- name: Firewall service
+  service:
+    name: firewalld
+    enabled: true
+    state: started
+
+- name: Don't expose libvirt socket
+  firewalld:
+    rich_rule: rule service name="libvirt" reject
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Allow libvirt in firewall
+  firewalld:
+    zone: libvirt
+    service: libvirt
+    permanent: yes
+    immediate: yes
+    state: enabled

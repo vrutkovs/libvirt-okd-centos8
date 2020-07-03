@@ -1,0 +1,11 @@
+---
+
+- name: Required packages installed
+  yum:
+    name: "{{ cockpit_packages }}"
+    state: present
+
+- name: Service enabled
+  service:
+    name: cockpit.socket
+    enabled: true

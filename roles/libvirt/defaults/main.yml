@@ -1,0 +1,4 @@
+libvirt_packages:
+  - libvirt-devel
+  - libvirt-daemon-kvm
+  - libvirt-client

@@ -1,0 +1,12 @@
+---
+
+# List of required rpm packages
+
+cockpit_packages:
+  - podman
+  - cockpit
+  - cockpit-networkmanager
+  - cockpit-packagekit
+  - cockpit-selinux
+  - cockpit-storaged
+  - cockpit-machines
