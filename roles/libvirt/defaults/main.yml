@@ -2,3 +2,5 @@ libvirt_packages:
   - libvirt-devel
   - libvirt-daemon-kvm
   - libvirt-client
+# Required for virt_net
+  - python3-lxml
