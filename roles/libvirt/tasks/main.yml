@@ -92,6 +92,23 @@
     immediate: yes
     state: enabled
 
+- name: Allow kube api port in firewall
+  firewalld:
+    zone: libvirt
+    port: 6443/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Allow kube api port in firewall
+  firewalld:
+    zone: libvirt
+    port: 22623/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+
 - name: define a new virt network
   virt_net:
     command: define
