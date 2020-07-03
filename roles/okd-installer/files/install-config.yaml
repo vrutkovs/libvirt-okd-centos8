@@ -1,0 +1,17 @@
+apiVersion: v1
+baseDomain: vrutkovs.eu
+metadata:
+  name: okd
+platform:
+  libvirt:
+    URI: qemu+tcp://192.168.122.1/system
+compute:
+- name: worker
+  replicas: 0
+controlPlane:
+  name: master
+  replicas: 3
+pullSecret: |
+  {{ lookup('file', lookup('env', "PULL_SECRET")) | indent(2) }}
+sshKey: |
+  {{ lookup('file', "~/.ssh/id_rsa.pub") | indent(2) }}

@@ -1,4 +1,10 @@
 ---
+- name: Copy install config
+  template:
+    src: files/install-config.yaml
+    dest: /root/install-config.yaml
+
 - name: Extract openshift installer
   command: "podman run --rm --entrypoint=cp -v /usr/local/bin:/host:z --user=0 -ti registry.svc.ci.openshift.org/origin/4.5:libvirt-installer -rvf /usr/bin/openshift-install /host"
   become: true
+  creates: /usr/local/bin/openshift-install
