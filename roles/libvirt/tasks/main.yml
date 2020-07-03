@@ -10,6 +10,24 @@
     name: libvirtd
     enabled: true
 
+- name: NetworkManager dns config
+  copy:
+    dest: /etc/NetworkManager/conf.d/openshift.conf
+    content: |
+      [main]
+      dns=dnsmasq
+
+- name: NetworkManager internal server
+  copy:
+    dest: /etc/NetworkManager/dnsmasq.d/openshift.conf
+    content: |
+      server=/okd.vrutkovs.eu/192.168.126.1
+
+- name: Reload NetworkManager
+  service:
+    name: NetworkManager
+    state: reloaded
+
 - name: IP forwarding
   sysctl:
     name: net.ipv4.ip_forward
