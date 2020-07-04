@@ -123,7 +123,6 @@
     immediate: yes
     state: enabled
 
-
 - name: define a new virt network
   virt_net:
     command: define
