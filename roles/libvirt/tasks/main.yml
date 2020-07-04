@@ -128,3 +128,5 @@
     command: define
     name: default
     xml: '{{ lookup("template", "files/net-default.xml") }}'
+    autostart: true
+    state: active
