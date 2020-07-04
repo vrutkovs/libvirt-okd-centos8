@@ -24,3 +24,14 @@
     remote_src: true
     mode: "0755"
   become: true
+
+- name: Extract oc
+  command: "podman run --rm --entrypoint=cp -v /tmp/installer:/host:Z --user=0 -ti registry.svc.ci.openshift.org/origin/4.5:cli -rvf /usr/bin/oc /host"
+
+- name: copy oc to /usr/local/bin
+  copy:
+    src: /tmp/installer/oc
+    dest: /usr/local/bin/oc
+    remote_src: true
+    mode: "0755"
+  become: true
