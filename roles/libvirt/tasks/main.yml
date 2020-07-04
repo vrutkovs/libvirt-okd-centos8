@@ -1,8 +1,8 @@
 ---
 
-# - name: Disable virt module
-#   command: "dnf disable module virt"
-#   become: true
+- name: Disable virt module
+  command: "dnf module disable virt"
+  become: true
 
 - name: Add advanced virt repo
   copy:
@@ -10,7 +10,7 @@
     content: |
       [Advanced_Virt]
       name=CentOS-$releasever - Advanced Virt
-      baseurl=http://mirror.centos.org/centos/\$releasever/virt/x86_64/advanced-virtualization/
+      baseurl=http://mirror.centos.org/centos/$releasever/virt/x86_64/advanced-virtualization/
       gpgcheck=0
       enabled=1
   become: true
