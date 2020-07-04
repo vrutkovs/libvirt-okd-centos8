@@ -1,8 +1,8 @@
 ---
 
-- name: Disable virt module
-  command: "dnf disable module virt"
-  become: true
+# - name: Disable virt module
+#   command: "dnf disable module virt"
+#   become: true
 
 - name: Add advanced virt repo
   copy:
@@ -13,7 +13,7 @@
       baseurl=http://mirror.centos.org/centos/\$releasever/virt/x86_64/advanced-virtualization/
       gpgcheck=0
       enabled=1
-    become: true
+  become: true
 
 - name: Required packages installed
   yum:
@@ -31,12 +31,6 @@
     content: |
       [main]
       dns=dnsmasq
-
-- name: NetworkManager internal server
-  copy:
-    dest: /etc/NetworkManager/dnsmasq.d/openshift.conf
-    content: |
-      server=/okd.vrutkovs.eu/192.168.126.1
 
 - name: Reload NetworkManager
   service:
