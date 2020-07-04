@@ -1,9 +1,26 @@
 ---
+- name: create cluster dir
+  file:
+    path: "/srv/cluster"
+    state: directory
+
 - name: Copy install config
   template:
     src: files/install-config.yaml
-    dest: /root/install-config.yaml
+    dest: /srv/cluster/install-config.yaml
+
+- name: create temp binary dir
+  file:
+    path: "/tmp/installer"
+    state: directory
 
 - name: Extract openshift installer
-  command: "podman run --rm --entrypoint=cp -v /usr/local/bin:/host:z --user=0 -ti registry.svc.ci.openshift.org/origin/4.5:libvirt-installer -rvf /usr/bin/openshift-install /host"
+  command: "podman run --rm --entrypoint=cp -v /tmp/installer:/host:Z --user=0 -ti registry.svc.ci.openshift.org/origin/4.5:libvirt-installer -rvf /usr/bin/openshift-install /host"
+
+- name: copy installer to /usr/local/bin
+  copy:
+    src: /tmp/installer/openshift-install
+    dest: /usr/local/bin/openshift-install
+    remote_src: true
+    mode: "0755"
   become: true
