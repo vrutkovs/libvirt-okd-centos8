@@ -1,0 +1,21 @@
+---
+- name: Install haproxy
+  yum:
+    name: "haproxy"
+    state: present
+
+- name: Copy LB config
+  template:
+    src: files/haproxy.cfg
+    dest: /etc/haproxy/haproxy.cfg
+
+- name: Allow haproxy to bind to any port
+  seboolean:
+    name: haproxy_connect_any
+    state: yes
+    persistent: yes
+
+- name: Service started
+  service:
+    name: haproxy
+    state: restarted
